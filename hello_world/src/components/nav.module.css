@@ -1,0 +1,23 @@
+.container {
+    text-decoration: none;
+    list-style: none;
+    text-align: center;
+    background-color: #1b1e40;
+    height: 70px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container > li{
+    display: inline-block;
+    padding: 5px 15px;
+    font-weight: 600;
+}
+.container > li > a{
+    text-decoration: none;
+    color: white;
+}
+.container > li > a:hover{
+    color: tomato;
+}
