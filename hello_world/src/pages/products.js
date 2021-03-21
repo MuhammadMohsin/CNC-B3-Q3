@@ -1,7 +1,6 @@
-import {graphql} from "gatsby";
+import {graphql, Link} from "gatsby";
 import React from "react";
 import Layout from "../components/layout";
-import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 
 const ProductPage = ({data}) => {
 
@@ -13,12 +12,9 @@ const ProductPage = ({data}) => {
 
     {
       productList.map(({node}) => <div key={node.contentful_id}>
-        <h2> {node?.title}</h2>
-        <p> {node?.description}</p>
-        {documentToReactComponents(
-          JSON.parse(node.desc.raw)
-        )}
-
+        <Link to={`/${node.slug}`}>
+          <h2> {node?.title}</h2>
+        </Link>
       </div>)
     }
   </Layout>
@@ -33,8 +29,8 @@ query {
         desc {
           raw
         }
-        slug
         title
+        slug
         contentful_id
       }
     }

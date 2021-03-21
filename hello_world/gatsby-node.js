@@ -1,29 +1,32 @@
-exports.createPages = ({ actions: { createPage } }) => {
+exports.createPages = async ({graphql, actions: {createPage}}) => {
 
-    const productList = [
-        {
-            id: "p1",
-            title: "Product 1",
-            desc: "This is product 1 desc"
-        },
-        {
-            id: "p2",
-            title: "Product 2",
-            desc: "This is product 2 desc"
-        },
-        {
-            id: "p3",
-            title: "Product 3",
-            desc: "This is product 3 desc"
+    const response = await graphql(`
+        query {
+            allContentfulMobile {
+                edges {
+                node {
+                    desc {
+                    raw
+                    }
+                    title
+                    slug
+                    contentful_id
+                }
+                }
+            }
         }
-    ]
+`)
 
-    productList.forEach((productObj) => createPage({
-        path: `/${productObj.id}`,
+    console.log(JSON.stringify(response?.data?.allContentfulMobile?.edges));
+
+    const productList = response?.data?.allContentfulMobile?.edges
+
+    productList.forEach(({node}) => createPage({
+        path: `/${node.slug}`,
         component: require.resolve("./src/templates/product-details.js"),
         context: {
-            title: `${productObj.title}`,
-            desc: `${productObj.desc}`
+            title: `${node.title}`,
+            desc: `${node.desc.raw}`
         },
     }))
 }
